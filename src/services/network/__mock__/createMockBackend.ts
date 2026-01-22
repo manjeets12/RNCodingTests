@@ -33,11 +33,11 @@ const createMockBackend = () => {
         // Shift Adapter
         // -----------------------
         shiftAdapter: async <T>(
-            { path }: NetworkAdapterParams
+            { url }: NetworkAdapterParams
         ): Promise<T> => {
             return new Promise<T>((resolve, reject) => {
                 setTimeout(() => {
-                    if (path?.includes("/start")) {
+                    if (url?.includes("/start")) {
                         if (driver.status === "SHIFT_ACTIVE") {
                             reject(new Error("Shift already active"));
                             return;
@@ -57,7 +57,7 @@ const createMockBackend = () => {
                         return;
                     }
 
-                    if (path?.includes("/end")) {
+                    if (url?.includes("/end")) {
                         driver = { ...driver, status: "SHIFT_INACTIVE" };
                         shift = null;
 

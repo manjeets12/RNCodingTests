@@ -11,6 +11,8 @@ type NetworkRequestParams = {
 type NetworkClient = {
     get: <T>(data: NetworkRequestParams) => Promise<T>;
     post: <T>(data: NetworkRequestParams) => Promise<T>;
+    put: <T>(data: NetworkRequestParams) => Promise<T>;
+
 };
 
 
@@ -59,6 +61,7 @@ function BaseNetworkService(
     return {
         get: <T>(data: NetworkRequestParams) => request<T>({ method: "GET", ...data }),
         post: <T>(data: NetworkRequestParams) => request<T>({ method: "POST", ...data }),
+        put: <T>(data: NetworkRequestParams) => request<T>({ method: "PUT", ...data }),
     };
 }
 

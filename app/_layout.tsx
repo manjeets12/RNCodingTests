@@ -1,5 +1,5 @@
+import { SessionProvider, useSession } from '@/src/presentation/contexts/AuthContext';
 import { Stack } from 'expo-router';
-import { SessionProvider, useSession } from './ctx';
 import { SplashScreenController } from './splash';
 
 
@@ -8,7 +8,7 @@ function RootNavigator() {
   return (
     <Stack>
       <Stack.Protected guard={!session}>
-        <Stack.Screen name="index" options={{ title: 'Home' }} />
+        <Stack.Screen name="index" />
         <Stack.Screen name="authentication" options={{ title: 'Authentication' }} />
         <Stack.Screen
           name="modal"

@@ -82,6 +82,11 @@ export const sizes = {
         lg: 32,
         xl: 40,
     },
+    avatar: {
+        sm: 40,
+        md: 80,
+        lg: 120,
+    },
 
     screenPadding: 16,
 } as const;

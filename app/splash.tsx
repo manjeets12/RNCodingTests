@@ -1,5 +1,5 @@
 import { SplashScreen } from 'expo-router';
-import { useSession } from './ctx';
+import { useSession } from '../src/presentation/contexts/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -10,3 +10,5 @@ export function SplashScreenController() {
     }
     return null;
 }
+
+export default SplashScreenController

@@ -1,7 +1,7 @@
 import AuthService from "@/src/services/network/authService";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState, } from "react";
-import { useSession } from "../../../../../app/ctx";
+import { useSession } from "../../../contexts/AuthContext";
 import { BaseOtpVerificationPorps } from "../otpVerification/types";
 
 const useOtpVerificationLogics = (props: BaseOtpVerificationPorps) => {
