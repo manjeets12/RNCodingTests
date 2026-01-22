@@ -1,11 +1,13 @@
 import AuthService from "@/src/services/network/authService";
-import { useState, useCallback, useRef, useEffect, } from "react";
-import { BaseOtpVerificationPorps } from "../types";
 import { useRouter } from "expo-router";
+import { useCallback, useEffect, useRef, useState, } from "react";
+import { useSession } from "../../../../../app/ctx";
+import { BaseOtpVerificationPorps } from "../otpVerification/types";
 
 const useOtpVerificationLogics = (props: BaseOtpVerificationPorps) => {
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const router = useRouter(); //This became bit dirty, need abstraction
+    const router = useRouter();
+    const { signIn } = useSession();
     const [otp, setOtp] = useState('');
     const [isOtpValid, setIsOtpValid] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -31,15 +33,16 @@ const useOtpVerificationLogics = (props: BaseOtpVerificationPorps) => {
             try {
                 setLoading(true);
                 const { identifier, identifierType, } = props ?? {};
-                const response = await AuthService.post({ url: '/verify', body: { otp, identifier, identifierType } });
-                console.log('OTP Verified', otp);
+                const response = await AuthService.post<{ token: string }>({ url: '/verify', body: { otp, identifier, identifierType } });
                 setLoading(false);
-                setSuccess(true);
-                //Process token or data
-                setTimeout(() => {
-                    router.back(); //close the flow on success
-                }, 1000)
 
+                if (response?.token) {
+                    setSuccess(true);
+                    //Just for mocking the behaviour
+                    setTimeout(() => {
+                        signIn(response.token);
+                    }, 1000);
+                }
             } catch (error: any) {
                 console.error('OTP Verification failed:', error?.message);
                 error?.message && setErrorMessage(error?.message);
@@ -47,7 +50,7 @@ const useOtpVerificationLogics = (props: BaseOtpVerificationPorps) => {
                 setLoading(false);
             }
         }
-    }, [isOtpValid, otp]);
+    }, [isOtpValid, otp, signIn, props, router]);
 
     return {
         state: {

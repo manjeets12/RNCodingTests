@@ -1,10 +1,9 @@
 import CustomButton from "@/src/presentation/components/atoms/CustomButton";
 import { CustomText } from "@/src/presentation/components/atoms/CustomText";
-import StaggeredCarousel from "@/src/presentation/components/molecules/carousel/staggered";
 import { sizes } from "@/src/presentation/theme";
 import { globalStyles } from "@/src/presentation/theme/styles";
 import { useRouter } from "expo-router";
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View } from "react-native";
 
 const OTP_VERIFICATION_OPTIONS: { key: string, title: string, description?: string, buttonVariant: "primary" | "secondary" | "link" }[] = [
 
@@ -25,11 +24,11 @@ export default function Index() {
         break;
       case 'OTP_AS_SCREEN':
         router.push({
-          pathname: '/otpVerification',
+          pathname: '/authentication',
           params: {
             identifier: 'user@example.com',
             identifierType: 'EMAIL',
-            onSuccess: (token: string) => console.log('OTP Verified')
+            //onSuccess: (token: string) => console.log('OTP Verified')
           }
         });
         break;
@@ -39,7 +38,6 @@ export default function Index() {
   }
   return (
     <View style={[globalStyles.container, styles.container]}>
-      <StaggeredCarousel />
 
       <CustomText variant='headlineMedium'>{"Exlplore multiple OTP flows"}</CustomText>
       {OTP_VERIFICATION_OPTIONS.map((option) => (

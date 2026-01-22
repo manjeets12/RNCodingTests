@@ -14,6 +14,10 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     rowSpaceBetween: {
         flexDirection: 'row',
         justifyContent: 'space-between',
