@@ -7,6 +7,7 @@ const LOCALE_EN = {
     LOGOUT: 'Logout',
     OTP_VERIFICATION: 'OTP Verification',
     ENTER_OTP: 'Please enter the verification code we just sent you on',
+    FOR_MOBILE: 'for mobile number.',
     DIDNT_RECEIVE_OTP: "Didn't receive the OTP?",
     OTP_VERIFIED: 'OTP Verified Successfully!',
 };

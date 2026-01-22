@@ -1,22 +1,19 @@
-import { LOCALE } from "../../../constants/locale";
-import React from "react";
-import { StyleSheet, View, } from 'react-native';
-import CustomButton from "../../components/atoms/CustomButton";
-import { CustomText } from "../../components/atoms/CustomText";
-import OtpInput from "../../components/atoms/OtpInput";
-import { sizes } from "../../theme";
-import { globalStyles } from "../../theme/styles";
-import useOtpResendTimer from "../../components/atoms/OtpInput/hooks/useOtpResendTimer";
-import { formatOtpTime } from "../../../utils/formatter/dateAndTime";
-import CONFIG from "../../../constants/config";
-import useOtpVerificationLogics from "./hooks/useOtpVerificationLogics";
-import { SafeAreaView } from "react-native-safe-area-context";
+
+import CONFIG from "@/src/constants/config";
+import { LOCALE } from "@/src/constants/locale";
+import CustomButton from "@/src/presentation/components/atoms/CustomButton";
+import { CustomText } from "@/src/presentation/components/atoms/CustomText";
+import OtpInput from "@/src/presentation/components/atoms/OtpInput";
+import useOtpResendTimer from "@/src/presentation/components/atoms/OtpInput/hooks/useOtpResendTimer";
+import { sizes } from "@/src/presentation/theme";
+import { globalStyles } from "@/src/presentation/theme/styles";
+import { formatOtpTime } from "@/src/utils/formatter/dateAndTime";
+import { StyleSheet, View } from "react-native";
+import useOtpVerificationLogics from "../hooks/useOtpVerificationLogics";
 import { OtpVerificationProps } from "./types";
-import { useLocalSearchParams } from "expo-router";
 
 
-const OtpVerificationScreen = () => {
-    const { title, message, ...props } = useLocalSearchParams<OtpVerificationProps>();
+const OtpVerificationScreen = ({ title, message, onEditIdentifier, ...props }: OtpVerificationProps) => {
     const {
         state: {
             isOtpValid,
@@ -33,9 +30,13 @@ const OtpVerificationScreen = () => {
     const { otpTime, enableResend, onResendOtp, } = useOtpResendTimer(CONFIG.RESEND_OTP_TIMER_LIMIT, true);
 
     return (
-        <SafeAreaView style={globalStyles.container}>
+        <>
             <CustomText variant='displayMedium' style={styles.heading}>{title ?? LOCALE.OTP_VERIFICATION}</CustomText>
             <CustomText variant='bodyLarge' style={styles.message}>{message ?? LOCALE.ENTER_OTP}</CustomText>
+            {!!props?.identifier && <View style={globalStyles.row}>
+                <CustomText variant='bodyLarge' >{props.identifier}</CustomText>
+                <CustomButton onPress={() => { onEditIdentifier?.() }} title='Edit' variant='link' size='small' />
+            </View>}
             <OtpInput maxOtpSize={4} size='medium' onOtpValueChange={onOtpValueChange} errorMessage={errorMessage} />
             <CustomButton variant='primary' title="Verify OTP" disabled={!isOtpValid || loading || success} loading={loading} onPress={onVerifyOtp} />
             {success ? (
@@ -48,7 +49,7 @@ const OtpVerificationScreen = () => {
                     </View>
                 )}
 
-        </SafeAreaView>
+        </>
     );
 }
 
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
         marginVertical: sizes.spacing.lg,
     },
     message: {
-        marginBottom: sizes.spacing.md,
+        marginBottom: sizes.spacing.xs,
     },
     resendContainer: {
         marginTop: sizes.spacing.sm,
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
     successMessage: {
         marginTop: sizes.spacing.md,
     },
+
 
 });
 

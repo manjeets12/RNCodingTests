@@ -11,5 +11,6 @@ export type OtpVerificationProps = BaseOtpVerificationPorps & {
     title?: string;
     //Relavent message if required,
     message?: string;
+    onEditIdentifier?: () => void;
 
 }

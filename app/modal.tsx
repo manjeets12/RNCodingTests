@@ -1,4 +1,4 @@
-import OtpVerificationScreen from '../src/presentation/screens/otpVerificationScreen'
+import OtpVerificationScreen from "@/src/presentation/screens/authentication/otpVerification";
 
 export default OtpVerificationScreen;
 

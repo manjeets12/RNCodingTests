@@ -1,3 +1,5 @@
+
+import { getUUID } from '@/src/utils';
 import BaseNetworkService, { NetworkAdapter, NetworkAdapterParams } from "./baseNetwork";
 
 
@@ -9,7 +11,8 @@ const mockAdapter: NetworkAdapter = async <T>(
     return new Promise<T>((resolve, reject) => {
         setTimeout(() => {
             if ((body as any)?.otp === "1234") {
-                resolve(true as T);
+                // Return a mock token object with uuid
+                resolve({ token: getUUID() } as T);
             } else {
                 reject(new Error("Invalid OTP"));
             }
