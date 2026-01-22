@@ -20,7 +20,7 @@ const OrderDetailsScreen = () => {
 
 
     const onMarkDeliverySuccess = async () => {
-        if (order?.status === 'PENDING' && order?.orderId) {
+        if (order?.status !== 'DELIVERED' && order?.orderId) {
             setLoading(true)
             await OrderUseCase.markDelivered(order.orderId)
             setLoading(false)
@@ -76,7 +76,7 @@ const OrderDetailsScreen = () => {
                 {order?.status === 'PENDING' || order?.status === 'FAILED' ? (<>
                     <CustomButton
                         onPress={onMarkDeliveryFailPress}
-                        title="Mark Delivery"
+                        title="Mark Delivery Fail"
                         variant='secondary'
                         size='small'
                         loading={loading}

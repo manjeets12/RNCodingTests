@@ -1,4 +1,5 @@
-import React, { createContext, useContext, type PropsWithChildren } from 'react';
+import useDriverContextStore from '@/src/shared/stores/useDriverContextStore';
+import React, { createContext, useCallback, useContext, type PropsWithChildren } from 'react';
 import { useStorageState } from '../../shared/hooks/useStorageState';
 
 interface AuthContextType {
@@ -23,12 +24,23 @@ export function useSession() {
 
 export function SessionProvider({ children }: PropsWithChildren) {
     const [[isLoading, session], setSession] = useStorageState('session');
+    const reset = useDriverContextStore(state => state.reset);
 
+    const onSignOut = useCallback(() => {
+
+        setSession(null);
+        reset()
+        useDriverContextStore.persist.clearStorage(); // clears persisted state
+
+    }, []);
+    const onSignIn = useCallback((token: string) => {
+        setSession(token)
+    }, [])
     return (
         <AuthContext.Provider
             value={{
-                signIn: (token: string) => setSession(token),
-                signOut: () => setSession(null),
+                signIn: onSignIn,
+                signOut: onSignOut,
                 session,
                 isLoading,
             }}
